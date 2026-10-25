@@ -1,59 +1,104 @@
-<!doctype html>
-<html lang="id" data-bs-theme="light">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Katalog Karya MMB — Edisi Pustaka UI (Latihan P09)</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator IPK Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-        <img src="assets/logo.svg" alt="" width="32" height="32">
-        Katalog Karya
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuUtama"
-              aria-controls="menuUtama" aria-expanded="false" aria-label="Buka menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="menuUtama">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Galeri</a></li>
-          <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
-        </ul>
-        <button id="tombolTema" class="btn btn-outline-secondary btn-sm" type="button">Mode gelap</button>
-      </div>
-    </div>
-  </nav>
- 
-  <main class="container py-4">
-    <h1 class="h3 mb-3">Karya Mahasiswa 3 D3 MM B</h1>
-    <div id="galeri" class="row g-3"></div>
-    <section id="tentang" class="mt-5">
-      <h2 class="h5">Tentang</h2>
-      <p class="text-body-secondary">Data karya pada halaman ini fiktif, dibuat untuk latihan.</p>
-    </section>
-  </main>
- 
-  <div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="judulDetail" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title h5" id="judulDetail" data-judul></h2>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+  <div class="app-container">
+    <header>
+      <h1>Aplikasi Manajemen & Kalkulator IPK</h1>
+      <!-- Navigasi 3 Tab di Atas -->
+      <nav class="top-nav">
+        <button class="tab-btn active" data-target="view-input">Input Matakuliah</button>
+        <button class="tab-btn" data-target="view-summary">Ringkasan IPK</button>
+        <button class="tab-btn" data-target="view-stats">Statistik Progres</button>
+      </nav>
+    </header>
+
+    <div class="dashboard-grid">
+      <!-- Kolom Kiri: Form Input & Daftar Matakuliah (Lebar & Luas) -->
+      <main class="main-content">
+        <section id="view-input" class="view-section active">
+          <h2>Daftar & Input Matakuliah</h2>
+          <form id="form-matkul">
+            <div class="form-row">
+              <input type="text" id="nama-matkul" placeholder="Nama Mata Kuliah (misal: Pemrograman Visual)" required>
+              <input type="number" id="sks-matkul" placeholder="SKS (1-6)" min="1" max="6" required>
+            </div>
+            
+            <select id="nilai-matkul" required>
+              <option value="">-- Pilih Nilai --</option>
+              <option value="4">A - Istimewa (4.00)</option>
+              <option value="3.75">A- - Istimewa (3.75)</option>
+              <option value="3.5">AB - Sangat Baik (3.50)</option>
+              <option value="3.25">B+ - Sangat Baik (3.25)</option>
+              <option value="3">B - Baik (3.00)</option>
+              <option value="2.5">BC - Cukup Baik (2.50)</option>
+              <option value="2">C - Cukup (2.00)</option>
+              <option value="1">D - Kurang (1.00)</option>
+              <option value="0">E - Sangat Kurang (0.00)</option>
+            </select>
+
+            <button type="submit">Tambah Mata Kuliah</button>
+          </form>
+
+          <div class="list-container">
+            <h3>Daftar Matakuliah Tersimpan</h3>
+            <ul id="daftar-matkul"></ul>
+          </div>
+        </section>
+
+        <section id="view-summary" class="view-section" hidden>
+          <h2>Hasil Perhitungan IPK</h2>
+          <div class="card-summary">
+            <p>Total SKS: <span id="total-sks-detail">0</span></p>
+            <p>Total Bobot: <span id="total-bobot-detail">0.00</span></p>
+            <h3>IPK Sementara: <span id="nilai-ipk-detail">0.00</span></h3>
+          </div>
+        </section>
+
+        <section id="view-stats" class="view-section" hidden>
+          <h2>Statistik & Progres Akademik</h2>
+          <p>Target SKS Kelulusan: 144 SKS</p>
+          <div class="progress-bar-container">
+            <div id="progress-bar-detail" style="width: 0%;"></div>
+          </div>
+          <p id="progress-text-detail">Progres SKS: 0%</p>
+        </section>
+      </main>
+
+      <!-- Kolom Kanan: Ringkasan Cepat & Progres SKS -->
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Ringkasan Cepat</h4>
+          <div class="stat-item">
+            <span>IPK Sementara</span>
+            <strong id="nilai-ipk">0.00</strong>
+          </div>
+          <div class="stat-item">
+            <span>Total SKS</span>
+            <strong id="total-sks">0</strong>
+          </div>
+          <div class="stat-item">
+            <span>Total Bobot</span>
+            <strong id="total-bobot">0.00</strong>
+          </div>
         </div>
-        <div class="modal-body" data-isi></div>
-      </div>
+
+        <div class="side-card">
+          <h4>Progres SKS</h4>
+          <div class="progress-bar-container">
+            <div id="progress-bar" style="width: 0%;"></div>
+          </div>
+          <p id="progress-text" style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">0 / 144 SKS (0%)</p>
+        </div>
+      </aside>
     </div>
   </div>
- 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-<script src="data.js" defer></script>
-<script src="ui-pustaka.js" defer></script>
-<script src="main.js" defer></script>
-  <script src="ui-pustaka.js" defer></script>
-  <script src="main.js" defer></script>
+
+  <script src="main.js"></script>
 </body>
 </html>
