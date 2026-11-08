@@ -19,7 +19,7 @@ index.html
 | src/hitung.js | Aturan nilai huruf serta perhitungan total SKS, total bobot, IPK, dan persen progres, tanpa menyentuh halaman. |
 | src/ui.js | Menggambar daftar dan ringkasan ke halaman serta mengatur perpindahan tab. |
 
-## Belum dimodulkan
+## Belum dimodulkan (direncanakan di P12 sesuai ROADMAP)
 
 - Penyimpanan: belum ada modul penyimpanan karena aplikasi belum memakai localStorage; perilaku asli dipertahankan.
 - Nama mata kuliah masih dimasukkan lewat innerHTML tanpa sanitasi; dibiarkan supaya perilaku tidak berubah dan dicatat untuk perbaikan berikutnya.
