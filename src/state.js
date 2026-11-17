@@ -5,6 +5,10 @@ export function semua() {
   return state.matkul;
 }
 
+export function muatDari(daftar) {
+  state.matkul = daftar;
+}
+
 export function tambah(nama, sks, nilai) {
   state.matkul.push({ id: Date.now(), nama, sks, nilai });
 }
