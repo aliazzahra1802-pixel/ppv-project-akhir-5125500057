@@ -1,5 +1,6 @@
 // ui.js: menggambar halaman dan berpindah tab. Tidak menyimpan data.
 import { getGradeLabel, hitungRingkasan, TARGET_SKS } from './hitung.js';
+import { BarisMatkul, PesanKosong } from './komponen.js';
 
 const daftarMatkulEl = document.getElementById('daftar-matkul');
 
@@ -31,16 +32,9 @@ export function pasangTab() {
 }
 
 export function gambar(daftar) {
-  daftarMatkulEl.innerHTML = '';
-  daftar.forEach((item) => {
-    const gradeLetter = getGradeLabel(item.nilai);
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <span><strong>${item.nama}</strong> (${item.sks} SKS) - Nilai: <strong>${gradeLetter}</strong> (${item.nilai})</span>
-      <button data-id="${item.id}">Hapus</button>
-    `;
-    daftarMatkulEl.appendChild(li);
-  });
+  daftarMatkulEl.replaceChildren(...(daftar.length
+    ? daftar.map((item) => BarisMatkul(item, getGradeLabel(item.nilai)))
+    : [PesanKosong('Belum ada mata kuliah.')]));
 
   const { totalSks, totalBobot, ipk, persenSks } = hitungRingkasan(daftar);
 
@@ -51,8 +45,8 @@ export function gambar(daftar) {
   nilaiIpkEl.textContent = ipk;
   nilaiIpkDetail.textContent = ipk;
 
-  progressBarEl.style.width = `${persenSks}%`;
-  progressTextEl.textContent = `${totalSks} / ${TARGET_SKS} SKS (${persenSks}%)`;
-  progressBarDetail.style.width = `${persenSks}%`;
-  progressTextDetail.textContent = `Progres SKS: ${persenSks}% (${totalSks} / ${TARGET_SKS} SKS)`;
+  progressBarEl.style.width = persenSks + '%';
+  progressTextEl.textContent = totalSks + ' / ' + TARGET_SKS + ' SKS (' + persenSks + '%)';
+  progressBarDetail.style.width = persenSks + '%';
+  progressTextDetail.textContent = 'Progres SKS: ' + persenSks + '% (' + totalSks + ' / ' + TARGET_SKS + ' SKS)';
 }
